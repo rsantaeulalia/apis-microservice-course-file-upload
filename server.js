@@ -1,8 +1,10 @@
 var express = require('express');
 var cors = require('cors');
+const bodyParser= require('body-parser')
 require('dotenv').config()
 const multer = require('multer');
 
+app.use(bodyParser.urlencoded({extended: true}))
 var app = express();
 
 app.use(cors());
