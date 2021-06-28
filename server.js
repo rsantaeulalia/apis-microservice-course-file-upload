@@ -21,18 +21,19 @@ app.listen(port, function () {
 });
 
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads')
+  destination: (req, file, cb) => {
+    cb(null, "public");
   },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `files/admin-${file.fieldname}-${Date.now()}.${ext}`);
+  },
 })
  
 var upload = multer({ storage: storage })
 
 // post, upload file
-app.post('/api/fileanalyse', upload.single('myFile'), (req, res, next) => {
+app.post('/api/fileanalyse', upload.single('upfile'), (req, res, next) => {
   const file = req.file
   if (!file) {
     const error = new Error('Please upload a file')
